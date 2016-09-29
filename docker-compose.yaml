@@ -1,0 +1,56 @@
+version: '2'
+services:
+
+  ##########################################################
+  rabbitmq:
+    container_name: RabbitMQ
+    image: rabbitmq:3-management
+#    volumes:
+#      - ./rabbitmq/mnesia:/var/lib/rabbitmq/mnesia
+    ports:
+      - "15672:15672"
+      - "5672:5672"    
+    networks:
+      - log
+    environment:
+      RABBITMQ_DEFAULT_USER: logUser
+      RABBITMQ_DEFAULT_PASS: logPwd
+      RABBITMQ_DEFAULT_VHOST: EnterpriseLog
+  ##########################################################
+  logstash:
+    container_name: LogStash    
+    image: logstash:2.4
+    depends_on:
+      - rabbitmq
+      - elasticsearch
+    links:
+      - rabbitmq:AMQPServer
+      - elasticsearch:ElasticSearchServer
+    networks:
+      - log    
+    volumes:
+      - ./logstash-EnterpriseLog.conf:/config/logstash-EnterpriseLog.conf
+    command: ["-f", "/config/logstash-EnterpriseLog.conf"]
+  ##########################################################
+  elasticsearch:
+    container_name: ElasticSearch    
+    image: elasticsearch:2.3
+    networks:
+      - log
+  ##########################################################
+  kibana:
+    container_name: Kibana    
+    image: kibana:4.5
+    depends_on:
+      - elasticsearch
+    links:
+      - elasticsearch:elasticsearch
+    ports:
+      - "5601:5601"
+    networks:
+      - log
+
+
+networks:
+  log:
+    driver: bridge
