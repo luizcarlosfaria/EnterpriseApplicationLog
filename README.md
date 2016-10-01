@@ -12,7 +12,7 @@ docker-compose up
 
 ### RabbitMQ
 - New and default *virtual host* ```EnterpriseLog``` will be created automatically
-- Use **http://localhost:15672/** for management with **User**: ```logUser``` and **Password**: ```logPwd```
+- Use **[http://localhost:15672/](http://localhost:15672/)** for management with **User**: ```logUser``` and **Password**: ```logPwd```
 
 ### ElasticSearch
 - Will be used to storage Log content
@@ -23,6 +23,7 @@ docker-compose up
 
 ### Kibana
 - Was configurated do read ```ElasticSearch```
+- Use **[http://localhost:5601/](http://localhost:5601/)** for management without credentials
 
 # Enjoy!
 more content like that you will see on:
