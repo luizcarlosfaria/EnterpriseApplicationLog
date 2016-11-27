@@ -19,7 +19,7 @@ services:
   ##########################################################
   logstash:
     container_name: LogStash    
-    image: logstash:2.4
+    image: logstash:5
     depends_on:
       - rabbitmq
       - elasticsearch
@@ -34,13 +34,13 @@ services:
   ##########################################################
   elasticsearch:
     container_name: ElasticSearch    
-    image: elasticsearch:2.3
+    image: elasticsearch:5
     networks:
       - log
   ##########################################################
   kibana:
     container_name: Kibana    
-    image: kibana:4.5
+    image: kibana:5
     depends_on:
       - elasticsearch
     links:
