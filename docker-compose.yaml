@@ -35,6 +35,9 @@ services:
   elasticsearch:
     container_name: ElasticSearch    
     image: elasticsearch:5
+    ports:
+      - "9200:9200"
+      - "9300:9300"
     networks:
       - log
   ##########################################################
