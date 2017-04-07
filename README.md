@@ -18,12 +18,12 @@ docker-compose up
 - Will be used to storage Log content
 
 ### LogStash
-- Are configurated do **create** ```ApplicationLog``` *queue* on ```EnterpriseLog``` *virtual host* and listen this queue
+- Are configurated to **create** ```ApplicationLog``` *queue* on ```EnterpriseLog``` *virtual host* and listen this queue
 - Every message in ```EnterpriseLog/ApplicationLog``` will be send to ```ElasticSearch```
 
 ### Kibana
 - Was configurated do read ```ElasticSearch```
-- Use **[http://localhost:5601/](http://localhost:5601/)** for management without credentials
+- Use **[http://localhost:5601/](http://localhost:5601/)** for management Kibana without credentials
 
 # Enjoy!
 more content like that you will see on:
