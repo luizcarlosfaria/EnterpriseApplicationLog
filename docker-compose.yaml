@@ -2,39 +2,45 @@ version: '2'
 services:
 
   ##########################################################
-  rabbitmq:
-    container_name: RabbitMQ
-    image: rabbitmq:3-management
-#    volumes:
-#      - ./rabbitmq/mnesia:/var/lib/rabbitmq/mnesia
-    ports:
-      - "15672:15672"
-      - "5672:5672"    
-    networks:
-      - log
-    environment:
-      RABBITMQ_DEFAULT_USER: logUser
-      RABBITMQ_DEFAULT_PASS: logPwd
-      RABBITMQ_DEFAULT_VHOST: EnterpriseLog
-  ##########################################################
-  logstash:
-    container_name: LogStash    
-    image: logstash:5
-    depends_on:
-      - rabbitmq
-      - elasticsearch
-    links:
-      - rabbitmq:AMQPServer
-      - elasticsearch:elasticsearchserver
-    networks:
-      - log    
-    volumes:
-      - ./logstash-EnterpriseLog.conf:/config/logstash-EnterpriseLog.conf
-    command: ["-f", "/config/logstash-EnterpriseLog.conf"]
+#   rabbitmq:
+#     container_name: RabbitMQ
+#     image: rabbitmq:3-management
+# #    volumes:
+# #      - ./rabbitmq/mnesia:/var/lib/rabbitmq/mnesia
+#     ports:
+#       - "15672:15672"
+#       - "5672:5672"    
+#     networks:
+#       - log
+#     environment:
+#       RABBITMQ_DEFAULT_USER: logUser
+#       RABBITMQ_DEFAULT_PASS: logPwd
+#       RABBITMQ_DEFAULT_VHOST: EnterpriseLog
+#   ##########################################################
+#   logstash:
+#     container_name: LogStash    
+#     image: docker.elastic.co/logstash/logstash:5.3.1
+#     volumes:
+#       - ./product.logstash.conf:/config/product.logstash.conf    
+#     depends_on:
+#       - rabbitmq
+#       - elasticsearch
+#     links:
+#       - rabbitmq:AMQPServer
+#       - elasticsearch:elasticsearch
+#     networks:
+#       - log    
+#     command: ["-f", "/config/product.logstash.conf"]
   ##########################################################
   elasticsearch:
     container_name: ElasticSearch    
-    image: elasticsearch:5
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.3.1
+    environment: 
+      - "http.host:0.0.0.0"
+      - "transport.host:127.0.0.1"
+#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes: 
+      - ./product.elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -43,7 +49,9 @@ services:
   ##########################################################
   kibana:
     container_name: Kibana    
-    image: kibana:5
+    image: docker.elastic.co/kibana/kibana:5.3.1
+    volumes:
+      - ./product.kibana.yml:/usr/share/kibana/config/kibana.yml
     depends_on:
       - elasticsearch
     links:
