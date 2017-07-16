@@ -1,36 +1,36 @@
 version: '2'
 services:
 
+ ##########################################################
+  rabbitmq:
+    container_name: RabbitMQ
+    image: rabbitmq:3-management-alpine
+    volumes:
+      - mq_data:/var/lib/rabbitmq/mnesia
+    ports:
+      - "15672:15672"
+      - "5672:5672"    
+    networks:
+      - log
+    environment:
+      RABBITMQ_DEFAULT_USER: logUser
+      RABBITMQ_DEFAULT_PASS: logPwd
+      RABBITMQ_DEFAULT_VHOST: EnterpriseLog
   ##########################################################
-#   rabbitmq:
-#     container_name: RabbitMQ
-#     image: rabbitmq:3-management
-# #    volumes:
-# #      - ./rabbitmq/mnesia:/var/lib/rabbitmq/mnesia
-#     ports:
-#       - "15672:15672"
-#       - "5672:5672"    
-#     networks:
-#       - log
-#     environment:
-#       RABBITMQ_DEFAULT_USER: logUser
-#       RABBITMQ_DEFAULT_PASS: logPwd
-#       RABBITMQ_DEFAULT_VHOST: EnterpriseLog
-#   ##########################################################
-#   logstash:
-#     container_name: LogStash    
-#     image: docker.elastic.co/logstash/logstash:5.3.1
-#     volumes:
-#       - ./product.logstash.conf:/config/product.logstash.conf    
-#     depends_on:
-#       - rabbitmq
-#       - elasticsearch
-#     links:
-#       - rabbitmq:AMQPServer
-#       - elasticsearch:elasticsearch
-#     networks:
-#       - log    
-#     command: ["-f", "/config/product.logstash.conf"]
+  logstash:
+    container_name: LogStash    
+    image: docker.elastic.co/logstash/logstash:5.3.1
+    volumes:
+      - ./product.logstash.conf:/config/product.logstash.conf    
+    depends_on:
+      - rabbitmq
+      - elasticsearch
+    links:
+      - rabbitmq:AMQPServer
+      - elasticsearch:elasticsearch
+    networks:
+      - log    
+    command: ["-f", "/config/product.logstash.conf"]
   ##########################################################
   elasticsearch:
     container_name: ElasticSearch    
@@ -61,6 +61,8 @@ services:
     networks:
       - log
 
+volumes:
+  mq_data:
 
 networks:
   log:
