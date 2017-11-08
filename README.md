@@ -1,17 +1,11 @@
 # EnterpriseApplicationLog
 Enterprise Application Log with RabbitMQ, LogStash, ElasticSearch and Kibana
 
-# UPDATE 2017-11-08
-Version [v.3.1](https://github.com/docker-gallery/EnterpriseApplicationLog/releases/tag/v3.1) of stack was released to addressing these issues:
-* Stack Update from 5.3.1 to 5.6.4
+## Releases and Release Notes
+[![Latest release](https://img.shields.io/github/release/docker-gallery/EnterpriseApplicationLog.svg)](https://github.com/docker-gallery/EnterpriseApplicationLog/releases/latest) 
+[![GitHub Release Date](https://img.shields.io/github/release-date/docker-gallery/EnterpriseApplicationLog.svg)](https://github.com/docker-gallery/EnterpriseApplicationLog/releases/latest)
 
-# UPDATE 2017-07-16
-Version [v.3.0](https://github.com/docker-gallery/EnterpriseApplicationLog/releases/tag/v3.0) of stack was released to addressing these issues:
-* Change image source from hub.docker.com to docker.elastic.co 
-* Update configurations to make compatible
-* Disable Xpack (it's payd)
-* Migrate to alpine based version of RabbitMQ image
-
+[All releases](https://github.com/docker-gallery/EnterpriseApplicationLog/releases) 
 
 ## How to use
 ```
