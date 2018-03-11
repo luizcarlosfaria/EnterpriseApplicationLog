@@ -17,9 +17,14 @@ docker-compose up
 
 I've complete abandon SemVer because this does not represent the semantic need for versioning a stack.
 
-### Products-6.2.2-Stack-1.0
 
-Upgrade to Elasticsearch 6.2.2, Logstash 6.2.2, Kibana 6.2.2 with new images provided on docker.elastic.co
+### Products-6.2.2-Stack-1.1.0
+
+Adding beats (metricbeat) to monitoring Docker, RabbitMQ and ElasticSearch with premade dashboards. 
+
+### Products-6.2.2-Stack-1.0.0
+
+Upgrade to Elasticsearch 6.2.2, Logstash 6.2.2, Kibana 6.2.2 with new images provided on docker.elastic.co.
 
 ## Result
 
