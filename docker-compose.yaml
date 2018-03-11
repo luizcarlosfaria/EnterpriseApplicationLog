@@ -19,7 +19,7 @@ services:
   ##########################################################
   logstash:
     container_name: LogStash    
-    image: docker.elastic.co/logstash/logstash:5.6.4
+    image: docker.elastic.co/logstash/logstash-oss:6.2.2
     volumes:
       - ./product.logstash.conf:/config/product.logstash.conf    
     depends_on:
@@ -34,13 +34,15 @@ services:
   ##########################################################
   elasticsearch:
     container_name: ElasticSearch    
-    image: docker.elastic.co/elasticsearch/elasticsearch:5.6.4
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.2.2
     environment: 
       - "http.host:0.0.0.0"
       - "transport.host:127.0.0.1"
-#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "discovery.type=single-node"
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     volumes: 
       - ./product.elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - elasticsearch_data:/usr/share/elasticsearch/data      
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -49,7 +51,7 @@ services:
   ##########################################################
   kibana:
     container_name: Kibana    
-    image: docker.elastic.co/kibana/kibana:5.6.4
+    image: docker.elastic.co/kibana/kibana-oss:6.2.2
     volumes:
       - ./product.kibana.yml:/usr/share/kibana/config/kibana.yml
     depends_on:
@@ -63,6 +65,7 @@ services:
 
 volumes:
   mq_data:
+  elasticsearch_data:
 
 networks:
   log:
