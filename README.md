@@ -15,7 +15,7 @@ docker-compose up
 ```
 ## Releases
 
-I've complete abandon samver because this does not represent the semantic need for versioning a stack.
+I've complete abandon SemVer because this does not represent the semantic need for versioning a stack.
 
 ### Products-6.2.2-Stack-1.0
 
