@@ -13,6 +13,13 @@ git clone https://github.com/docker-gallery/EnterpriseApplicationLog.git
 cd ./EnterpriseApplicationLog
 docker-compose up
 ```
+## Releases
+
+I've complete abandon samver because this does not represent the semantic need for versioning a stack.
+
+### Products-6.2.2-Stack-1.0
+
+Upgrade to Elasticsearch 6.2.2, Logstash 6.2.2, Kibana 6.2.2 with new images provided on docker.elastic.co
 
 ## Result
 
