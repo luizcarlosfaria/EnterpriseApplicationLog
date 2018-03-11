@@ -1,7 +1,7 @@
-xpack.security.enabled: false
-xpack.security.authc.anonymous.username: _es_anonymous_user
-xpack.security.authc.anonymous.authz_exception: false
-xpack.security.authc.anonymous.roles: role1, role2
+#xpack.security.enabled: false
+#xpack.security.authc.anonymous.username: _es_anonymous_user
+#xpack.security.authc.anonymous.authz_exception: false
+#xpack.security.authc.anonymous.roles: role1, role2
 node.name:    ${HOSTNAME}
 #network.host: ${ES_NETWORK_HOST}
 http.host: 0.0.0.0
