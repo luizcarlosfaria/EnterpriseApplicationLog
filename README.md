@@ -40,8 +40,12 @@ Upgrade to Elasticsearch 6.2.2, Logstash 6.2.2, Kibana 6.2.2 with new images pro
 - Every message in ```EnterpriseLog/ApplicationLog``` will be send to ```ElasticSearch```
 
 ### Kibana
-- Was configurated do read ```ElasticSearch```
+- Was configurated to read data from ```ElasticSearch```
 - Use **[http://localhost:5601/](http://localhost:5601/)** for management Kibana without credentials
+
+### Beats
+- Monitoring and collecting metrics from ```Docker Daemon```, ```ElasticSearch``` and ```RabbitMQ```.
+- Automatic setup some dashboards to show these metrics
 
 # Enjoy!
 more content like that you will see on:
