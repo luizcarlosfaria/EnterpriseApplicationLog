@@ -8,6 +8,9 @@ Enterprise Application Log with RabbitMQ, LogStash, ElasticSearch and Kibana
 [All releases](https://github.com/docker-gallery/EnterpriseApplicationLog/releases) 
 
 ## How to use
+
+On Windows, execute `export COMPOSE_CONVERT_WINDOWS_PATHS=1` before to solve issue reported on [issue #1829 at docker/for-win repo](https://github.com/docker/for-win/issues/1829)
+
 ```
 git clone https://github.com/docker-gallery/EnterpriseApplicationLog.git
 cd ./EnterpriseApplicationLog
