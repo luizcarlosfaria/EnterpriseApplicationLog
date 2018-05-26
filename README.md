@@ -9,7 +9,11 @@ Enterprise Application Log with RabbitMQ, LogStash, ElasticSearch and Kibana
 
 ## How to use
 
-On Windows, execute `export COMPOSE_CONVERT_WINDOWS_PATHS=1` before to solve issue reported on [issue #1829 at docker/for-win repo](https://github.com/docker/for-win/issues/1829)
+On Windows, set **COMPOSE_CONVERT_WINDOWS_PATHS=1** environment variable to solve issue reported on [issue #1829 at docker/for-win repo](https://github.com/docker/for-win/issues/1829):
+
+* Bash: `export COMPOSE_CONVERT_WINDOWS_PATHS=1`
+* Cmd: `set COMPOSE_CONVERT_WINDOWS_PATHS=1`
+* PowerShell: `$Env:COMPOSE_CONVERT_WINDOWS_PATHS=1`
 
 ```
 git clone https://github.com/docker-gallery/EnterpriseApplicationLog.git
@@ -18,7 +22,7 @@ docker-compose up
 ```
 ## Releases
 
-I've complete abandon SemVer because this does not represent the semantic need for versioning a stack.
+I've complete abandon SemVer because this does not represent the semantic needs for versioning this stack.
 
 
 ### Products-6.2.2-Stack-1.1.0
