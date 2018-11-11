@@ -56,7 +56,7 @@ Upgrade to Elasticsearch 6.2.2, Logstash 6.2.2, Kibana 6.2.2 with new images pro
 
 # Enjoy!
 more content like that you will see on:
-- [Website / Blog](http://luizcarlosfaria.net/)
+- [Website / Blog](http://gago.io/)
 - [YouTube](https://www.youtube.com/luizcarlosfaria/)
 - [Facebook Page](https://www.facebook.com/ArquitetoDeSolucoes/)
 - [Facebook Group](https://www.facebook.com/groups/arquiteturadotnet/)
