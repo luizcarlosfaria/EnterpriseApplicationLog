@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3'
 services:
 
  ##########################################################
@@ -19,7 +19,7 @@ services:
   ##########################################################
   elasticsearch:
     container_name: ElasticSearch    
-    image: docker.elastic.co/elasticsearch/elasticsearch:6.7.0
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.7.0
     environment: 
       - discovery.type=single-node
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
@@ -46,7 +46,7 @@ services:
   ##########################################################
   kibana:
     container_name: Kibana    
-    image: docker.elastic.co/kibana/kibana:6.7.0
+    image: docker.elastic.co/kibana/kibana-oss:6.7.0
     environment:
       - server.name=kibana
       - server.host="0"
@@ -75,24 +75,22 @@ services:
       - elasticsearch:elasticsearch
     networks:
       - log    
-    command: logstash -f /config-dir/product.logstash.conf  
+    command: logstash -f /config/product.logstash.conf  
     depends_on:
       - rabbitmq
       - elasticsearch
   ##########################################################
   metricbeat:
     container_name: metricbeat
-    image: docker.elastic.co/beats/metricbeat:6.7.0
+    image: docker.elastic.co/beats/metricbeat-oss:6.7.0
     user: root
     volumes:
       - ./product.metricbeat.yml:/usr/share/metricbeat/metricbeat.yml
       - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
-      elasticsearch:
-        condition: service_healthy
-      kibana:
-        condition: service_healthy
-
+      - elasticsearch
+      - kibana
+    restart: on-failure
     networks:
       - log
 
