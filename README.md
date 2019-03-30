@@ -26,7 +26,7 @@ I've complete abandon SemVer because this does not represent the semantic needs 
 
 ### Products-6.7.0-Stack-2.0.0
 
-Update stack from 6.2.2 to 6.7.0 (Contribution of @tbaragao updating stack to 6.7.0. Thank you!)
+Update stack from 6.2.2 to 6.7.0 (Contribution of [@tbaragao](https://github.com/tbaragao) updating stack to 6.7.0. Thank you!)
 
 ### Products-6.2.2-Stack-1.1.0
 
