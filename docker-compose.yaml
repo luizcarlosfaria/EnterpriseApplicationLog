@@ -1,4 +1,4 @@
-version: '2.3'
+version: '3'
 services:
 
  ##########################################################
@@ -17,31 +17,21 @@ services:
       RABBITMQ_DEFAULT_PASS: logPwd
       RABBITMQ_DEFAULT_VHOST: EnterpriseLog
   ##########################################################
-  logstash:
-    container_name: LogStash    
-    image: docker.elastic.co/logstash/logstash-oss:6.2.2
-    volumes:
-      - ./product.logstash.conf:/config/product.logstash.conf      
-    depends_on:
-      - rabbitmq
-      - elasticsearch        
-    links:
-      - rabbitmq:AMQPServer
-      - elasticsearch:elasticsearch
-    networks:
-      - log    
-    command: ["-f", "/config/product.logstash.conf"]
-  ##########################################################
   elasticsearch:
     container_name: ElasticSearch    
-    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.2.2
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.7.0
     environment: 
-      - "http.host:0.0.0.0"
-      - "transport.host:127.0.0.1"
-      - "discovery.type=single-node"
+      - discovery.type=single-node
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - http.host=0.0.0.0
+      - transport.host=127.0.0.1
+      - network.host=0.0.0.0
+      - cluster.name="elastic_stack_logging"
+      - node.name="elastic_stack_logging_data"
+      - discovery.zen.minimum_master_nodes=1
+      - http.cors.enabled=true
+      - http.cors.allow-origin="*"
     volumes: 
-      - ./product.elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
       - elasticsearch_data:/usr/share/elasticsearch/data      
     ports:
       - "9200:9200"
@@ -50,19 +40,19 @@ services:
       test: ["CMD-SHELL", "curl -I -s -L http://localhost:9200 || exit 1"]
       interval: 30s
       timeout: 20s
-      retries: 5
-#      start_period: 30s      
+      retries: 5     
     networks:
       - log
   ##########################################################
   kibana:
     container_name: Kibana    
-    image: docker.elastic.co/kibana/kibana-oss:6.2.2
-    volumes:
-      - ./product.kibana.yml:/usr/share/kibana/config/kibana.yml   
+    image: docker.elastic.co/kibana/kibana-oss:6.7.0
+    environment:
+      - server.name=kibana
+      - server.host="0"
+      - elasticsearch.url=http://elasticsearch:9200
     depends_on:
-      elasticsearch:
-        condition: service_healthy
+      - elasticsearch
     links:
       - elasticsearch:elasticsearch
     ports:
@@ -71,24 +61,36 @@ services:
       test: ["CMD-SHELL", "curl -I -s -L http://localhost:5601/ || exit 1"]
       interval: 30s
       timeout: 20s
-      retries: 5
-#      start_period: 30s      
+      retries: 5     
     networks:
       - log
   ##########################################################
+  logstash:
+    container_name: LogStash    
+    image: docker.elastic.co/logstash/logstash-oss:6.7.0
+    volumes:
+      - ./product.logstash.conf:/config/product.logstash.conf      
+    links:
+      - rabbitmq:AMQPServer
+      - elasticsearch:elasticsearch
+    networks:
+      - log    
+    command: logstash -f /config/product.logstash.conf  
+    depends_on:
+      - rabbitmq
+      - elasticsearch
+  ##########################################################
   metricbeat:
     container_name: metricbeat
-    image: docker.elastic.co/beats/metricbeat:6.2.2
+    image: docker.elastic.co/beats/metricbeat-oss:6.7.0
     user: root
     volumes:
       - ./product.metricbeat.yml:/usr/share/metricbeat/metricbeat.yml
       - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
-      elasticsearch:
-        condition: service_healthy
-      kibana:
-        condition: service_healthy
-
+      - elasticsearch
+      - kibana
+    restart: on-failure
     networks:
       - log
 
