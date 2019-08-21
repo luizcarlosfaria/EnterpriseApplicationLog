@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Test deploy
 
 on: [push]
 
@@ -18,5 +18,6 @@ jobs:
         docker-compose up -d
         sleep 180
         docker-compose ps
+        docker-compose logs
         docker-compose down -v
       
