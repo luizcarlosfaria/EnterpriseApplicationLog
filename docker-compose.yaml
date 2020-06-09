@@ -19,7 +19,7 @@ services:
   ##########################################################
   elasticsearch:
     container_name: ElasticSearch    
-    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.7.0
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.7.1
     environment: 
       - discovery.type=single-node
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
@@ -46,15 +46,13 @@ services:
   ##########################################################
   kibana:
     container_name: Kibana    
-    image: docker.elastic.co/kibana/kibana-oss:6.7.0
+    image: docker.elastic.co/kibana/kibana-oss:7.7.1
     environment:
       - server.name=kibana
       - server.host="0"
       - elasticsearch.url=http://elasticsearch:9200
     depends_on:
       - elasticsearch
-    links:
-      - elasticsearch:elasticsearch
     ports:
       - "5601:5601"
     healthcheck:
@@ -67,25 +65,22 @@ services:
   ##########################################################
   logstash:
     container_name: LogStash    
-    image: docker.elastic.co/logstash/logstash-oss:6.7.0
+    image: docker.elastic.co/logstash/logstash-oss:7.7.1
     volumes:
       - ./product.logstash.conf:/config/product.logstash.conf      
-    links:
-      - rabbitmq:AMQPServer
-      - elasticsearch:elasticsearch
-    networks:
-      - log    
     command: logstash -f /config/product.logstash.conf  
     depends_on:
       - rabbitmq
       - elasticsearch
+    networks:
+      - log    
   ##########################################################
   metricbeat:
     container_name: metricbeat
-    image: docker.elastic.co/beats/metricbeat-oss:6.7.0
+    build: 
+      context: ./metricbeat    
     user: root
-    volumes:
-      - ./product.metricbeat.yml:/usr/share/metricbeat/metricbeat.yml
+    volumes:      
       - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
       - elasticsearch
@@ -93,7 +88,7 @@ services:
     restart: on-failure
     networks:
       - log
-
+  ##########################################################
 
 volumes:
   mq_data:
