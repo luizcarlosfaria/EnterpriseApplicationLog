@@ -88,7 +88,18 @@ services:
     restart: on-failure
     networks:
       - log
-  ##########################################################
+    ##########################################################
+  elastichq:
+    container_name: elastichq
+    image: elastichq/elasticsearch-hq
+    depends_on:
+      - elasticsearch
+    ports:
+      - "5000:5000"
+    restart: on-failure
+    networks:
+      - log
+
 
 volumes:
   mq_data:
