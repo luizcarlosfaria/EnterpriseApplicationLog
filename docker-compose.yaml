@@ -19,7 +19,7 @@ services:
   ##########################################################
   elasticsearch:
     container_name: ElasticSearch    
-    image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.7.1
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.8.0
     environment: 
       - discovery.type=single-node
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
@@ -46,7 +46,7 @@ services:
   ##########################################################
   kibana:
     container_name: Kibana    
-    image: docker.elastic.co/kibana/kibana-oss:7.7.1
+    image: docker.elastic.co/kibana/kibana-oss:7.8.0
     environment:
       - server.name=kibana
       - server.host="0"
@@ -65,7 +65,7 @@ services:
   ##########################################################
   logstash:
     container_name: LogStash    
-    image: docker.elastic.co/logstash/logstash-oss:7.7.1
+    image: docker.elastic.co/logstash/logstash-oss:7.8.0
     volumes:
       - ./product.logstash.conf:/config/product.logstash.conf      
     command: logstash -f /config/product.logstash.conf  
@@ -78,7 +78,7 @@ services:
   metricbeat:
     container_name: metricbeat
     build: 
-      context: ./metricbeat    
+      context: ./metricbeat
     user: root
     volumes:      
       - /var/run/docker.sock:/var/run/docker.sock
