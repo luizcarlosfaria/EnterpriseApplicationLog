@@ -24,6 +24,10 @@ docker-compose up
 
 I've complete abandon SemVer because this does not represent the semantic needs for versioning this stack.
 
+### Products-7.8.0-Stack-2.1.0
+
+Update stack from 6.7.0 to 7.8.0.
+
 ### Products-6.7.0-Stack-2.0.0
 
 Update stack from 6.2.2 to 6.7.0 (Contribution of [@tbaragao](https://github.com/tbaragao) updating stack to 6.7.0. Thank you!)
