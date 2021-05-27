@@ -1,25 +1,32 @@
 version: '3'
 services:
 
- ##########################################################
+  ########################################################## RabbitMQ
   rabbitmq:
     container_name: RabbitMQ
+    hostname: rabbitmq
     image: rabbitmq:3-management-alpine
     volumes:
-      - mq_data:/var/lib/rabbitmq/mnesia
+      - rabbitmq_data:/var/lib/rabbitmq/mnesia
     ports:
       - "15672:15672"
-      - "5672:5672" 
+      - "5672:5672"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -I -s -L http://localhost:15672 || exit 1"]
+      interval: 30s
+      timeout: 20s
+      retries: 5         
     networks:
       - log
     environment:
       RABBITMQ_DEFAULT_USER: logUser
       RABBITMQ_DEFAULT_PASS: logPwd
       RABBITMQ_DEFAULT_VHOST: EnterpriseLog
-  ##########################################################
+  ########################################################## Elastic
   elasticsearch:
-    container_name: ElasticSearch    
-    image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.8.0
+    container_name: ElasticSearch
+    hostname: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.13.0-amd64 
     environment: 
       - discovery.type=single-node
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
@@ -32,7 +39,7 @@ services:
       - http.cors.enabled=true
       - http.cors.allow-origin="*"
     volumes: 
-      - elasticsearch_data:/usr/share/elasticsearch/data      
+      - elasticsearch_data:/usr/share/elasticsearch/data
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -43,10 +50,11 @@ services:
       retries: 5     
     networks:
       - log
-  ##########################################################
+  ########################################################## Kibana
   kibana:
-    container_name: Kibana    
-    image: docker.elastic.co/kibana/kibana-oss:7.8.0
+    container_name: Kibana
+    hostname: kibana
+    image: docker.elastic.co/kibana/kibana:7.13.0-amd64
     environment:
       - server.name=kibana
       - server.host="0"
@@ -62,23 +70,24 @@ services:
       retries: 5     
     networks:
       - log
-  ##########################################################
+  ########################################################## LogStash
   logstash:
-    container_name: LogStash    
-    image: docker.elastic.co/logstash/logstash-oss:7.8.0
-    volumes:
-      - ./product.logstash.conf:/config/product.logstash.conf      
-    command: logstash -f /config/product.logstash.conf  
+    container_name: LogStash
+    hostname: logstash
+    build: 
+      context: ./logstash
+    command: logstash -f /config/logstash.conf  
     depends_on:
       - rabbitmq
       - elasticsearch
     networks:
       - log    
-  ##########################################################
+  ########################################################## MetricBeat
   metricbeat:
-    container_name: metricbeat
+    container_name: MetricBeat
+    hostname: metricbeat
     build: 
-      context: ./metricbeat
+      context: ./beat/metricbeat
     user: root
     volumes:      
       - /var/run/docker.sock:/var/run/docker.sock
@@ -88,21 +97,59 @@ services:
     restart: on-failure
     networks:
       - log
-    ##########################################################
+  ########################################################## HeartBeat
+  heartbeat:
+    container_name: HeartBeat
+    hostname: heartbeat
+    build: 
+      context: ./beat/heartbeat
+    depends_on:
+      - elasticsearch
+      - kibana
+    restart: on-failure
+    networks:
+      - log
+  ########################################################## APM
+  apm:
+    container_name: APM
+    hostname: apm
+    build: 
+      context: ./apm
+    depends_on:
+      - elasticsearch
+      - kibana
+    ports:
+      - "8200:8200"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -I -s -L http://localhost:8200 || exit 1"]
+      interval: 30s
+      timeout: 20s
+      retries: 5         
+    restart: on-failure
+    networks:
+      - log
+  ########################################################## ElasticHQ
   elastichq:
-    container_name: elastichq
-    image: elastichq/elasticsearch-hq
+    container_name: ElasticHQ
+    hostname: elastichq
+    build: 
+      context: ./elastichq
     depends_on:
       - elasticsearch
     ports:
       - "5000:5000"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -I -s -L http://localhost:5000 || exit 1"]
+      interval: 30s
+      timeout: 20s
+      retries: 5           
     restart: on-failure
     networks:
       - log
 
 
 volumes:
-  mq_data:
+  rabbitmq_data:
   elasticsearch_data:
 
 networks:

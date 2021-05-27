@@ -21,12 +21,9 @@ metricbeat.modules:
 
 output.elasticsearch:
   hosts: ["elasticsearch:9200"]
-#  username: "elastic"
-#  password: "elastic"
+
 setup.kibana:
-  host: "kibana:5601"  
-#  username: "elastic" 
-#  password: "elastic"  
+  host: "kibana:5601"
 
 
 setup.dashboards.enabled: true
