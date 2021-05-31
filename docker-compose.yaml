@@ -5,12 +5,14 @@ services:
   rabbitmq:
     container_name: RabbitMQ
     hostname: rabbitmq
-    image: rabbitmq:3-management-alpine
+    build: 
+      context: ./rabbitmq
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq/mnesia
     ports:
-      - "15672:15672"
-      - "5672:5672"
+      - "15672:15672" #management
+      - "15692:15692" #prometheus
+      - "5672:5672"   #amqp
     healthcheck:
       test: ["CMD-SHELL", "curl -I -s -L http://localhost:15672 || exit 1"]
       interval: 30s

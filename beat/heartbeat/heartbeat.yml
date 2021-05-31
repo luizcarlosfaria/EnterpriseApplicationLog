@@ -4,8 +4,6 @@ heartbeat.monitors:
   urls:
     - http://elasticsearch:9200
     - http://kibana:5601
-    - https://gago.io
-    - https://dockerdefinitivo.com
 
 - type: icmp
   schedule: '@every 5s'

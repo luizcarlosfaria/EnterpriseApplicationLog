@@ -24,7 +24,19 @@ docker-compose up
 
 I've complete abandon SemVer because this does not represent the semantic needs for versioning this stack.
 
-### Products-7.8.0-Stack-2.1.0
+### Products-7.13.0-Stack-4.0.0
+
+Update stack from 7.8.0 to 7.13.0.
+
+Adding APM
+
+Adding HeartBeat (for uptime monitoring)
+
+Adding RabbitMQ plugins
+
+Configure Prometheus RabbitMQ integration to expose queue metrics.
+
+### Products-7.8.0-Stack-3.0.0
 
 Update stack from 6.7.0 to 7.8.0.
 
