@@ -2,10 +2,47 @@
 Enterprise Application Log with RabbitMQ, LogStash, ElasticSearch and Kibana
 
 ## Releases and Release Notes
-[![Latest release](https://img.shields.io/github/release/docker-gallery/EnterpriseApplicationLog.svg)](https://github.com/docker-gallery/EnterpriseApplicationLog/releases/latest) 
-[![GitHub Release Date](https://img.shields.io/github/release-date/docker-gallery/EnterpriseApplicationLog.svg)](https://github.com/docker-gallery/EnterpriseApplicationLog/releases/latest)
+[![Latest release](https://img.shields.io/github/release/luizcarlosfaria/EnterpriseApplicationLog.svg)](https://github.com/luizcarlosfaria/EnterpriseApplicationLog/releases/latest) 
+[![GitHub Release Date](https://img.shields.io/github/release-date/luizcarlosfaria/EnterpriseApplicationLog.svg)](https://github.com/luizcarlosfaria/EnterpriseApplicationLog/releases/latest)
 
-[All releases](https://github.com/docker-gallery/EnterpriseApplicationLog/releases) 
+[All releases](https://github.com/luizcarlosfaria/EnterpriseApplicationLog/releases) 
+
+## About
+
+### RabbitMQ
+
+Provide log queue to perform async log write instead synchronous direct call to ElasticSearch.
+
+### ElasticSearch
+
+Log and Metrics Store.
+
+### LogStash
+
+Process logs from RabbitMQ and send to ElasticSearch
+
+### Kibana
+
+Data Visualization for ElasticSearch
+
+### MetricBeat
+
+Metrics for:
+* Docker
+* RabbitMQ
+* ElasticSearch
+
+### HeartBeat
+
+Uptime monitoring for:
+* ElasticSearch
+* Kibana
+* ...
+
+### APM - Application Performance Monitoring 
+
+Monitoring your application (.NET , Java, Node.js, Django, Flask, Rails, Rack RUM - JS and Go) [see more](https://www.elastic.co/pt/apm)
+
 
 ## How to use
 
@@ -16,10 +53,11 @@ On Windows, set **COMPOSE_CONVERT_WINDOWS_PATHS=1** environment variable to solv
 * PowerShell: `$Env:COMPOSE_CONVERT_WINDOWS_PATHS=1`
 
 ```
-git clone https://github.com/docker-gallery/EnterpriseApplicationLog.git
+git clone https://github.com/luizcarlosfaria/EnterpriseApplicationLog.git
 cd ./EnterpriseApplicationLog
 docker-compose up
 ```
+
 ## Releases
 
 I've complete abandon SemVer because this does not represent the semantic needs for versioning this stack.
