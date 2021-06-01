@@ -96,6 +96,7 @@ services:
     depends_on:
       - elasticsearch
       - kibana
+      - rabbitmq
     restart: on-failure
     networks:
       - log
