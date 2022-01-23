@@ -7,7 +7,6 @@ ADD ./heartbeat.yml /usr/share/heartbeat/heartbeat.yml
 
 USER root
 
-RUN chown root:heartbeat /usr/share/heartbeat/heartbeat.yml
+RUN chown root:heartbeat /usr/share/heartbeat/heartbeat.yml && chmod go-w /usr/share/heartbeat/heartbeat.yml
 
 USER heartbeat
-

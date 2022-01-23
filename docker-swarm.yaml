@@ -51,7 +51,6 @@ services:
       - log
   ########################################################## Kibana
   kibana:
-   # container_name: Kibana
     hostname: kibana
     image: docker.elastic.co/kibana/kibana:7.13.0-amd64
     environment:
@@ -95,7 +94,6 @@ services:
       - log
   ########################################################## HeartBeat
   heartbeat:
-    #container_name: HeartBeat
     hostname: heartbeat
     image: enterpriseapplicationlog_heartbeat
     depends_on:
@@ -125,6 +123,8 @@ services:
   elastichq:
     hostname: elastichq
     image: enterpriseapplicationlog_elastichq
+    build: 
+      context: ./elastichq
     depends_on:
       - elasticsearch
     ports:
@@ -145,4 +145,4 @@ volumes:
 
 networks:
   log:
-    driver: bridge
+    driver: overlay
